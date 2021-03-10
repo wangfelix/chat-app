@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat App</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io()
+        let keys = location.search.substr(1).split("&")
+
+        let id = ""
+
+        for(let item of keys){
+            let tmp = item.split("=");
+            if(tmp[0] === "key"){
+                id = tmp[1]
+            }
+        }
+
+        socket.emit('we rollin', id)
+
+        socket.on('otto', (msg) => {
+            console.log(msg)
+        })
+
+        socket.on('ttt', (msg) => {
+            console.log(msg)
+        })
+    </script>
+
+</head>
+<body>
+<p>Hallo Welssst</p>
+</body>
+</html>
