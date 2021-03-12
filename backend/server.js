@@ -3,36 +3,56 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const path = require('path');
-const PORT = 3000
+const ChatApp = require('./application/chatapp')
 
+const PORT = 3000
 app.use(express.static('public'))
+let chatApp = new ChatApp()
 
 io.on("connection", (socket) => {
+    console.log("socket.id: ")
+    console.log(socket.id)
 
-    socket.on('we rollin', (msg) => {
-       console.log("we rollin'");
-        io.emit('ttt', "we rollin' on id: "+msg);
+    socket.on('createRoom', ({roomName, userName}) => {
+
+       console.log("we rollin': " + roomName);
+       const roomId = chatApp.createRoom(roomName);
+       const userId = chatApp.createUserToRoom(userName, roomId);
+       io.emit("room created", {roomId, userId})
     });
 
-    io.emit('otto', "Hier ist Otto")
-    console.log('a user connected');
+    socket.on('joinRoom', ({roomId, userId}) => {
+
+        //TODO Check if the given userId corresponds to an existing user
+        if(!chatApp.hasRoom(roomId)) {
+            //TODO What happens when the url room id doesnt correspond to a room
+            console.log("ERROR: Room doesn't exist")
+        } else {
+            const roomName = chatApp.getRoomName(roomId);
+            const userName = chatApp.getUserName(userId, roomId);
+            console.log(userName + " is joining Room : " + roomName + " : " + roomId);
+            socket.join(roomId);
+            io.emit("room joined", {roomName, userName})
+        }
+    });
 
     socket.on('disconnect', () => {
         console.log('user disconnected')
     });
 })
 
+
+
+
+
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve('public/html/index.html'))
+    res.sendFile(path.resolve('./public/html/index.html'))
+})
+
+app.get('/:room_id/:user_id', (req, res) => {
+    res.sendFile(path.resolve('./public/html/room.html'))
 })
 
 server.listen(PORT, () => {
-    console.log('Server is running.')
+    console.log('Server is running on port ' + PORT)
 })
-
-// Kommentar
-
-console.log("same" +
-    "egs" +
-    "rh" +
-    "")
