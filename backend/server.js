@@ -39,8 +39,12 @@ io.on("connection", (socket) => {
             console.log(userName + " is joining Room : " + roomName + " : " + roomId);
             socket.join(roomId);
             io.in(roomId).emit("room joined", {roomName, userName});
-            //io.emit("room joined", {roomName, userName})
         }
+    });
+
+    socket.on('leaveRoom', ({roomId, userId}) => {
+        const disconnectedUserName = chatApp.disconnectUserFromRoom(roomId, userId)
+        io.in(roomId).emit("userLeftRoom", disconnectedUserName);
     });
 
     socket.on('disconnect', () => {

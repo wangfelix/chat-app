@@ -5,6 +5,10 @@ class ChatRoom {
         this.users = {}
     }
 
+    isEmpty() {
+        return Object.keys(this.users).length === 0
+    }
+
     getName() {
         return this.roomName
     }
@@ -16,6 +20,19 @@ class ChatRoom {
     getUsersName(userId) {
         return this.users[userId].getName()
     }
+
+    removeUser(userId) {
+        const userName = this.users[userId].getName()
+        console.log("before deletion in room: " + this.roomName)
+        console.log(this.users)
+        delete this.users[userId]
+        console.log("after deletion in room: " + this.roomName)
+        console.log(this.users)
+        return userName
+    }
+
+
+
 }
 
 class User {

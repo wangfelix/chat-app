@@ -12,7 +12,7 @@ class ChatApp {
 
     /** Creates a new room with a unique ID, adds it to the list of active room
      * and returns the ID of the newly created room
-     * @param {roomName} roomName name of the to be created room
+     * @param {String} roomName name of the to be created room
      * @return {String} The generated ID, that has been assigned to the created room
     */
     createRoom(roomName) {
@@ -56,6 +56,27 @@ class ChatApp {
 
     getUserName(userId, roomId) {
         return this.chatRooms[roomId].getUsersName(userId)
+    }
+
+    disconnectUserFromRoom(roomId, userId) {
+       const disconnectedUserName = this.chatRooms[roomId].removeUser(userId)
+
+        // TEST----------------------------------------------------------
+        console.log("Chatrooms before deletion: ")
+        console.log(this.chatRooms)
+        // ---END TEST------------------------------------------------------
+
+        // Remove Room after the last user left
+        if(this.chatRooms[roomId].isEmpty()) {
+            delete this.chatRooms[roomId]
+        }
+
+        // TEST-------------------------------------------------------------
+        console.log("Chatrooms after deletion: ")
+        console.log(this.chatRooms)
+        // ---END TEST-------------------------------------------------------
+
+        return disconnectedUserName
     }
 
 
