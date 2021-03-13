@@ -6,10 +6,10 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <input id="newRoomName" type="text"/>
+    <p id="room-name">You are about to join the room: </p>
+    <p>Choose Username:</p>
     <input id="userName" type="text"/>
-    <button id="createRoomBtn" onclick="createRoom()">Create new Room</button>
-
-    <script src="/javascript/index.js"></script>
+    <button id="submitUserName" onclick="createUser()">Join Room</button>
+    <script src="../javascript/joinroom.js"></script>
 </body>
 </html>
