@@ -21,6 +21,12 @@ io.on("connection", (socket) => {
        io.emit("room created", {roomId, userId})
     });
 
+    socket.on('createUser', ({roomId, userName}) => {
+
+        const userId = chatApp.createUserToRoom(userName, roomId);
+        io.emit("user created", userId)
+    });
+
     socket.on('joinRoom', ({roomId, userId}) => {
 
         //TODO Check if the given userId corresponds to an existing user
@@ -32,7 +38,8 @@ io.on("connection", (socket) => {
             const userName = chatApp.getUserName(userId, roomId);
             console.log(userName + " is joining Room : " + roomName + " : " + roomId);
             socket.join(roomId);
-            io.emit("room joined", {roomName, userName})
+            io.in(roomId).emit("room joined", {roomName, userName});
+            //io.emit("room joined", {roomName, userName})
         }
     });
 
@@ -47,6 +54,13 @@ io.on("connection", (socket) => {
 
 app.get('/', (req, res) => {
     res.sendFile(path.resolve('./public/html/index.html'))
+})
+
+/*
+ * Users call this URL to join a room. This route takes them to the page, where they choose a username before joining.
+ */
+app.get('/:room_id', (req, res) => {
+    res.sendFile(path.resolve('./public/html/joinroom.html'))
 })
 
 app.get('/:room_id/:user_id', (req, res) => {

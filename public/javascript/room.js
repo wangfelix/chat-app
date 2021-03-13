@@ -20,8 +20,9 @@ socket.on("room joined", ({roomName, userName}) => {
     console.log("Roomname: " + roomName)
     //--END TEST
 
-    document.getElementById('room-name').innerHTML += roomName
+    document.getElementById('room-name').innerHTML = roomName
     document.getElementById('user-name').innerHTML += userName
+    document.getElementById('share-room-link').innerHTML = "" + window.location.host + "/" +window.location.pathname.substr(1).split("/")[0]
 
 
 })

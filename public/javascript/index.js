@@ -9,7 +9,7 @@ socket.on('connect', function(){
 function createRoom() {
     const newRoomName = document.getElementById('newRoomName').value
     const userName = document.getElementById('userName').value
-    socket.emit('createRoom', {"roomName": newRoomName, "userName": userName, "userId": socket.id})
+    socket.emit('createRoom', {"roomName": newRoomName, "userName": userName})
 }
 
 socket.on("room created", ({roomId, userId}) => {
