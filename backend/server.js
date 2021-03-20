@@ -36,9 +36,10 @@ io.on("connection", (socket) => {
         } else {
             const roomName = chatApp.getRoomName(roomId);
             const userName = chatApp.getUserName(userId, roomId);
+            const messages = chatApp.getMessagesFromRoom(roomId);
             console.log(userName + " is joining Room : " + roomName + " : " + roomId);
             socket.join(roomId);
-            io.in(roomId).emit("room joined", {roomName, userName});
+            io.in(roomId).emit("room joined", {roomName, userName, messages});
         }
     });
 
@@ -47,6 +48,21 @@ io.on("connection", (socket) => {
         io.in(roomId).emit("userLeftRoom", disconnectedUserName);
     });
 
+    socket.on('send message', ({roomId, userId, message}) => {
+
+        //TODO Check if UserId and roomId are valid
+
+        const messageInfo = chatApp.createMessage(userId, roomId, message)
+
+        // TEST----------------------------------------------------------
+        console.log("messageInfo:")
+        console.log(messageInfo)
+        // ---END TEST---------------------------------------------------
+
+        io.in(roomId).emit("new message", messageInfo);
+    });
+
+    //TODO Remove User from game logic when they disconnect by closing the tab
     socket.on('disconnect', () => {
         console.log('user disconnected')
     });

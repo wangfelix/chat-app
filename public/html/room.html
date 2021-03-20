@@ -11,6 +11,13 @@
     <p id="user-name">Your Name: </p>
     <button id="leave-room" onclick="leaveRoom()">Leave Room</button>
 </div>
+<div id="messages-container" style="width: 1000px; height: 500px; background: bisque">
+    <div id="messages" style="width: 100%; height: 90%"></div>
+    <div id="write-message">
+        <input id="new-message" type="text"/>
+        <button id="send-new-message" onclick="sendMessage()">Send Message</button>
+    </div>
+</div>
 <p id="share-room-link">Link to this room: </p>
 
 <script src="/javascript/room.js"></script>

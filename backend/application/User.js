@@ -3,6 +3,7 @@ class ChatRoom {
         this.roomId = roomId
         this.roomName = roomName
         this.users = {}
+        this.messages = []
     }
 
     isEmpty() {
@@ -18,6 +19,7 @@ class ChatRoom {
     }
 
     getUsersName(userId) {
+        console.log("userId: " + userId)
         return this.users[userId].getName()
     }
 
@@ -31,6 +33,13 @@ class ChatRoom {
         return userName
     }
 
+    addMessage(message) {
+        this.messages.push(message)
+    }
+
+    getMessages() {
+        return this.messages
+    }
 
 
 }
@@ -50,4 +59,12 @@ class User {
     }
 }
 
-module.exports = {ChatRoom, User}
+class Message {
+    constructor(userId, message, messageTime) {
+        this.authorId = userId
+        this.messageTime = messageTime
+        this.message = message
+    }
+}
+
+module.exports = {ChatRoom, User, Message}
