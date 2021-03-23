@@ -11,7 +11,7 @@ socket.on('connect', function(){
     socket.emit('joinRoom', {roomId, userId})
 })
 
-socket.on("room joined", ({roomName, userName}) => {
+socket.on("room joined", ({roomName, userName, messages}) => {
 
     //TEST--
     console.log(socket.id);
@@ -25,12 +25,37 @@ socket.on("room joined", ({roomName, userName}) => {
     document.getElementById('user-name').innerHTML += userName
     document.getElementById('share-room-link').innerHTML = "" + window.location.host + "/" +window.location.pathname.substr(1).split("/")[0]
 
+    console.log("messages:")
+    console.log(messages)
+
+})
+
+function sendMessage() {
+    const message = document.getElementById('new-message').value
+    console.log("new message: " + message)
+    socket.emit('send message', {"roomId": roomId, "userId": userId, "message": message})
+}
+
+socket.on("new message", ({author, messageTime, message}) => {
+
+
+    //TEST--
+    console.log(socket.id);
+    console.log("new Message")
+    console.log("author: " + author)
+    console.log("messageTime: " + messageTime)
+    console.log("message: " + message)
+
+    let messagesDiv = document.getElementById('messages')
+    const p = document.createElement("P")
+    p.appendChild(document.createTextNode(message))
+    messagesDiv.appendChild(p)
+
 
 })
 
 function leaveRoom() {
 
-    //TODO Remove User Obj from Userslist in Room Obj
     socket.emit('leaveRoom', {"roomId": roomId, "userId": userId})
 
     window.location.href = "/"

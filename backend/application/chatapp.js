@@ -1,5 +1,6 @@
 let {generateId} = require('../util/helper')
-let {ChatRoom, User} = require('../application/User')
+let {ChatRoom, User, Message} = require('../application/User')
+let moment = require('moment')
 
 class ChatApp {
     constructor() {
@@ -79,9 +80,39 @@ class ChatApp {
         return disconnectedUserName
     }
 
-
     hasRoom(roomId) {
         return this.chatRooms[roomId] !== undefined;
+    }
+
+    getMessagesFromRoom(roomId) {
+        let messagesClone = [...this.chatRooms[roomId].getMessages()]
+        console.log("messageClone")
+        console.log(messagesClone)
+
+        if (messagesClone) {
+            // Add attribute 'author' with the name of the corresponding 'userId' attribute
+
+            messagesClone.forEach(message => {
+                console.log("messagevar")
+                console.log(message)
+                message['author'] = this.getUserName(message.authorId, roomId)
+            })
+        }
+        return messagesClone
+    }
+
+
+    createMessage(userId, roomId, message) {
+        const room = this.chatRooms[roomId]
+        let messageTime = moment().format('MMMM Do YYYY, h:mm:ss a')
+        const messageObj = new Message(userId, message, messageTime)
+        room.addMessage(messageObj)
+
+        return {
+            "author": this.getUserName(userId, roomId),
+            "messageTime": messageTime,
+            "message": message
+        }
     }
 }
 
