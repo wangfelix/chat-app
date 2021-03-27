@@ -6,7 +6,7 @@ const path = require('path');
 const ChatApp = require('./application/chatapp')
 
 const PORT = 3000
-app.use(express.static('public'))
+app.use(express.static( 'public'))
 let chatApp = new ChatApp()
 
 io.on("connection", (socket) => {
@@ -37,7 +37,6 @@ io.on("connection", (socket) => {
             const roomName = chatApp.getRoomName(roomId);
             const userName = chatApp.getUserName(userId, roomId);
             const messages = chatApp.getMessagesFromRoom(roomId);
-            console.log(userName + " is joining Room : " + roomName + " : " + roomId);
             socket.join(roomId);
             io.in(roomId).emit("room joined", {roomName, userName, messages});
         }
@@ -49,8 +48,6 @@ io.on("connection", (socket) => {
     });
 
     socket.on('send message', ({roomId, userId, message}) => {
-
-        //TODO Check if UserId and roomId are valid
 
         const messageInfo = chatApp.createMessage(userId, roomId, message)
 

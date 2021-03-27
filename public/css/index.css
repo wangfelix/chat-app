@@ -1,0 +1,70 @@
+:root {
+    --main-bg-color: rgb(102, 121, 138);
+    --input-text-height: 50px;
+    --input-text-max-width: 350px;
+    --input-text-border-color: rgb(189, 191, 190);
+    --input-text-border-color-focus: rgb(79, 152, 224);
+    --btn-height: 40px
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Light" , sans-serif;
+}
+
+body {
+    background: var(--main-bg-color);
+    height: 100%;
+}
+
+#content{
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+.create-room-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    place-content: center;
+    height: 700px;
+    width: 500px;
+    background: #e3e5e9;
+    border-radius: 15px;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px 20px 0px;
+}
+
+.input{
+    border-color: var(--input-text-border-color);
+    border-radius: 10px;
+    border-width: 4px;
+    height: var(--input-text-height);
+    width: var(--input-text-max-width);
+    border-style:solid;
+
+}
+
+.input:focus {
+    outline: none;
+    border:4px solid var(--input-text-border-color-focus);
+    box-shadow: none;
+}
+
+#create-room-btn{
+    height: var(--btn-height);
+    border: none;
+    padding: 10px 30px 10px 30px;
+    border-radius: 10px;
+    background: #ffdd79;
+    font-weight: bold;
+    margin-top: 20px;
+
+}
