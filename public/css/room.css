@@ -125,7 +125,6 @@ body{
 #new-message{
     margin: 5px 0 5px 20px;
     border-style: solid;
-    border-right-style: none;
     border-color: #8994b5;
     border-width: 3px;
 }
@@ -138,7 +137,7 @@ body{
 #send-new-message-btn{
     margin: 5px 20px 5px 0;
     border: solid;
-    border-color: #8994b5;
+    border-color: #e3b843;
     background: #ffdd79;
     font-weight: bolder;
     font-size: larger;
@@ -167,4 +166,24 @@ body{
     color: #f1f2f3;
     font-weight: bold;
     height: 35px;
+}
+
+#user-name-list{
+    height: 100%;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.user-name{
+    margin-top: 10px;
+    font-weight: bolder;
+    margin-left: 20px;
+}
+
+.separator{
+    margin-top: 10px;
+    height: 2px;
+    border-style: none;
+    background: var(--main-bg-color);
 }

@@ -74,27 +74,18 @@ class Room extends React.Component {
 
         return (
             <div id={"room-div"}>
-
                 <NavBar state = {this.state}/>
-
                 <div id={"main-content-container"}>
                     <div id="messages-container">
-
                         <div id="messages">
-                            {this.state.messages.map(message => (<Message key={message.messageTime} messageData = {message}/>))}
+                            {this.state.messages.map(message => (
+                                <Message key={message.messageTime} messageData = {message}/>
+                            ))}
                         </div>
-
                         <MessageTextBox socket = {this.state.socket}/>
-
                     </div>
-
-                    {/*TODO Rechte Leiste mit aktiven Nutzern*/}
-                    <div id={"user-name-list"}>
-                        <h3 id="user-name">Users: </h3>
-                        {this.state.users.map(user => (<p key={user.userId}>{user.userName}</p>))}
-                    </div>
+                    <SideBar users = {this.state.users}/>
                 </div>
-
             </div>
         );
     }
