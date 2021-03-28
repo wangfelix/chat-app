@@ -27,11 +27,16 @@ class NavBar extends React.Component {
         return (
             <div id={"navbar"}>
                 <div></div>
-                <button id="leave-room" onClick={this.leaveRoom}>Leaves Room</button>
+                <div id={"share-link-container"}>
+                    <p id={"share-link-label"}>Share-Link: </p>
+                    <input id={"share-room-link"} type="text" readOnly/>
+                </div>
                 <div id={"room-name-container"}>
                     <h2 id={"room-name"}>Room Name</h2>
                 </div>
-                <button id="leave-room" key={this.props.socket} onClick={this.leaveRoom}>Leave Room</button>
+                <div id={"leave-room-container"}>
+                    <button id="leave-room" onClick={this.leaveRoom}>Leave Room</button>
+                </div>
                 <div></div>
             </div>
         )
