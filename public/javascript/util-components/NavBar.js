@@ -10,16 +10,8 @@ class NavBar extends React.Component {
         this.leaveRoom = this.leaveRoom.bind(this)
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log("nextProps")
-        console.log(nextProps)
-        this.setState({ state: nextProps.state });
-    }
-
     leaveRoom() {
-
         this.state.socket.emit('leaveRoom', {"roomId": roomId, "userId": userId})
-
         window.location.href = "/"
     }
 
@@ -29,10 +21,10 @@ class NavBar extends React.Component {
                 <div></div>
                 <div id={"share-link-container"}>
                     <p id={"share-link-label"}>Share-Link: </p>
-                    <input id={"share-room-link"} type="text" readOnly/>
+                    <input id={"share-room-link"} type="text" readOnly value={this.props.state.shareLink}/>
                 </div>
                 <div id={"room-name-container"}>
-                    <h2 id={"room-name"}>Room Name</h2>
+                    <h2 id={"room-name"}>{this.props.state.roomName}</h2>
                 </div>
                 <div id={"leave-room-container"}>
                     <button id="leave-room" onClick={this.leaveRoom}>Leave Room</button>

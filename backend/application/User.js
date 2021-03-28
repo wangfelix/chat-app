@@ -23,6 +23,10 @@ class ChatRoom {
         return this.users[userId].getName()
     }
 
+    getUsers() {
+        return this.users
+    }
+
     removeUser(userId) {
         const userName = this.users[userId].getName()
         console.log("before deletion in room: " + this.roomName)

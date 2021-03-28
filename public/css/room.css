@@ -146,6 +146,11 @@ body{
     border-width: 4px;
 }
 
+#user-name-list{
+    display: flex;
+    flex-direction: column;
+}
+
 #leave-room-container{
     place-self: center;
     display: grid;

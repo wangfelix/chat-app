@@ -6,10 +6,13 @@ class Room extends React.Component {
         super(props);
         this.state = {
             socket: null,
+            users: [],
+            roomName: "",
+            shareLink: "",
             messages: [
                 {author: "Bot", messageTime: "0.0", message: "Hallo, schön dich zu sehen!"},
                 {author: "Bot", messageTime: "0.1", message: "Lade doch deine Freunde mit dem Link ein!"}
-                ]
+            ]
         };
     }
 
@@ -22,25 +25,42 @@ class Room extends React.Component {
         let that = this; // cache the this
 
         that.state.socket.on('connect', function(){
-            console.log(that.state.socket);
-            // that.setState(prevState => ({socket: socket}), ()=>{console.log(that.state)})
-            console.log(that.state)
             that.state.socket.emit('joinRoom', {roomId, userId})
         })
 
-        that.state.socket.on("room joined", ({roomName, userName, messages}) => {
+        that.state.socket.on("room joined", ({roomName, userName, messages, userId, users}) => {
 
-            document.getElementById('room-name').innerHTML = roomName
-            document.getElementById('user-name').innerHTML += userName
-            document.getElementById('share-room-link').value = "" + window.location.host + "/" +window.location.pathname.substr(1).split("/")[0]
+            messages.map(message => {
+                const messageObj = {
+                    author: message.author,
+                    message: message.message,
+                    messageTime: message.messageTime
+                }
+                that.setState(prevState => ({messages: [...prevState.messages, messageObj]}))
+            })
 
-            console.log("messages:")
-            console.log(messages)
+            for (let user in users) {
+                if (users.hasOwnProperty(user)){
+                    const userObj = {
+                        userName: users[user].userName,
+                        userId: users[user].userId
+                    }
+                    that.setState(prevState => ({users: [...prevState.users, userObj]}), ()=>{console.log(that.state)})
+                }
+            }
+
+            that.setState(() => ({roomName: roomName}))
+            // document.getElementById('user-name').innerHTML += userName
+            that.setState(() => ({shareLink: "" + window.location.host + "/" + window.location.pathname.substr(1).split("/")[0]}))
 
         })
 
-        that.state.socket.on("new message", ({author, messageTime, message}) => {
+        that.state.socket.on("other user joined", ({userName, userId}) => {
+            const userObj = {userName: userName, userId: userId}
+            that.setState(prevState => ({users: [...prevState.users, userObj]}), ()=>{console.log(that.state)})
+        })
 
+        that.state.socket.on("new message", ({author, messageTime, message}) => {
             const msgObj = {author: author, messageTime: messageTime, message: message}
             that.setState(prevState => ({messages: [...prevState.messages, msgObj]}), ()=>{console.log(that.state)})
         })
@@ -69,8 +89,9 @@ class Room extends React.Component {
                     </div>
 
                     {/*TODO Rechte Leiste mit aktiven Nutzern*/}
-                    <div id={"test"}>
-                        <p id="user-name">Users: </p>
+                    <div id={"user-name-list"}>
+                        <h3 id="user-name">Users: </h3>
+                        {this.state.users.map(user => (<p key={user.userId}>{user.userName}</p>))}
                     </div>
                 </div>
 

@@ -34,11 +34,24 @@ io.on("connection", (socket) => {
             //TODO What happens when the url room id doesnt correspond to a room
             console.log("ERROR: Room doesn't exist")
         } else {
+
+            console.log("UserID:")
+            console.log(userId)
+
             const roomName = chatApp.getRoomName(roomId);
             const userName = chatApp.getUserName(userId, roomId);
             const messages = chatApp.getMessagesFromRoom(roomId);
+            let users = chatApp.getUsersFromRoom(roomId)
+
+            console.log(users)
+
             socket.join(roomId);
-            io.in(roomId).emit("room joined", {roomName, userName, messages});
+
+            // only emits to client socket
+            socket.emit("room joined", {roomName, userName, messages, userId, users});
+
+            // emits to all users (sockets) in the room
+            socket.broadcast.to(roomId).emit("other user joined", {userName, userId})
         }
     });
 
