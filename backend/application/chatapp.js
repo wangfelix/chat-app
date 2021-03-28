@@ -13,7 +13,7 @@ class ChatApp {
 
     /** Creates a new room with a unique ID, adds it to the list of active room
      * and returns the ID of the newly created room
-     * @param {String} roomName name of the to be created room
+     * @param roomName name of the to be created room
      * @return {String} The generated ID, that has been assigned to the created room
     */
     createRoom(roomName) {
@@ -37,6 +37,12 @@ class ChatApp {
         return finalId
     }
 
+    /**
+     * Creates a new user object and adds it to an existing room
+     * @param userName the name of the to be created user
+     * @param roomId the id of the room, that the user will be added to
+     * @return {string} user ID of the newly created user object
+     */
     createUserToRoom(userName, roomId) {
 
         const addUserToRoom = (user, roomId) => {
@@ -113,6 +119,10 @@ class ChatApp {
             "messageTime": messageTime,
             "message": message
         }
+    }
+
+    getUsersFromRoom(roomId) {
+        return this.chatRooms[roomId].getUsers()
     }
 }
 
