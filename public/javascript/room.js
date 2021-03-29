@@ -50,9 +50,7 @@ class Room extends React.Component {
             }
 
             that.setState(() => ({roomName: roomName}))
-            // document.getElementById('user-name').innerHTML += userName
             that.setState(() => ({shareLink: "" + window.location.host + "/" + window.location.pathname.substr(1).split("/")[0]}))
-
         })
 
         that.state.socket.on("other user joined", ({userName, userId}) => {
